@@ -71,11 +71,12 @@ public class GuestbookPortlet extends MVCPortlet {
 
         		response.setRenderParameter(
         				"guestbookId", Long.toString(guestbookId));
+        		SessionMessages.add(request, "entryAdded");
 
         	}
         	catch (Exception e) {
         		System.out.println(e);
-
+        		SessionErrors.add(request, e.getClass().getName());
         		PortalUtil.copyRequestParameters(request, response);
 
         		response.setRenderParameter(
@@ -120,11 +121,13 @@ public class GuestbookPortlet extends MVCPortlet {
                 "guestbookId", Long.toString(guestbookId));
 
             _entryLocalService.deleteEntry(entryId, serviceContext);
+            SessionMessages.add(request, "entryDeleted");
         }
 
         catch (Exception e) {
             Logger.getLogger(GuestbookPortlet.class.getName()).log(
                 Level.SEVERE, null, e);
+            SessionErrors.add(request, e.getClass().getName());
         }
 	}
 	
